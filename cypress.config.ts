@@ -5,21 +5,26 @@ import createEsbuildPlugin from "@badeball/cypress-cucumber-preprocessor/esbuild
 
 export default defineConfig({
     e2e: {
-      specPattern: "**/*.feature",
-      async setupNodeEvents(
-        on: Cypress.PluginEvents,
-        config: Cypress.PluginConfigOptions
-      ): Promise<Cypress.PluginConfigOptions> {
-        await addCucumberPreprocessorPlugin(on, config);
-        
-        on(
-          "file:preprocessor",
-          createBundler({
-            plugins: [createEsbuildPlugin(config)],
-          })
-        );
- 
-        return config;
-      },
+        baseUrl: 'https://www.xe.com',
+        specPattern: "**/*.feature",
+        viewportWidth: 1366,
+        viewportHeight: 768,
+        // @ts-ignore
+        hideXHR: true,
+        async setupNodeEvents(
+            on: Cypress.PluginEvents,
+            config: Cypress.PluginConfigOptions
+        ): Promise<Cypress.PluginConfigOptions> {
+            await addCucumberPreprocessorPlugin(on, config);
+
+            on(
+                "file:preprocessor",
+                createBundler({
+                    plugins: [createEsbuildPlugin(config)],
+                })
+            );
+
+            return config;
+        },
     },
-  });
+});

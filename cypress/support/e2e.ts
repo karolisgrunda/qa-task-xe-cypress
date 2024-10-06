@@ -18,3 +18,18 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+const app = window.top;
+
+// @ts-ignore
+if (Cypress.config('hideXHR')) {
+    // @ts-ignore
+    if (!app.document.head.querySelector('[data-hide-command-log-request]')) {
+        // @ts-ignore
+        const style = app.document.createElement('style');
+        style.innerHTML =
+            '.command-name-request, .command-name-xhr { display: none }';
+        style.setAttribute('data-hide-command-log-request', '');
+        // @ts-ignore
+        app.document.head.appendChild(style);
+    }
+};
